@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div id="question-instance"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+SATable.SimpleAjaxInfo({
+  id: 'question-instance',
+  title: '题目信息',
+  getMethod: 'GET',
+  removeMethod: 'DELETE',
+  updateMethod: 'PATCH',
+  getURL: '{% url 'api-questionanswer-detail' qid %}',
+  updateURL: '{% url 'api-questionanswer-detail' qid %}',
+  removeURL: '{% url 'api-questionanswer-detail' qid %}',
+  removeToURL: '{% url 'web-question-list' %}',
+  items: [
+     { name: 'question', caption: '题目', type:'Text' },
+    { name: 'answer', caption: '答案', type:'Text', typeInfo: { markdown: true} },
+
+
+      'Divide',
+
+    { name: 'available', caption: '可用', type: 'Boolean' },
+
+
+  ]
+})
+</script>
+{% endblock %}

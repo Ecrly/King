@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div id="bank-create"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+SATable.SimpleAjaxForm({
+  id: 'bank-create',
+  method: 'POST',
+  toSuccess: '{% url 'web-bank-list' %}',
+  url: '{% url 'api-bank-list' %}',
+  items: [
+      {
+          name: 'name', caption: '题库名称', type: 'Text',
+      },{
+      name: 'url', caption: 'url', type: 'Text',
+      },{
+      name: 'is_available', caption: '可用', type: 'Boolean',defaultTrue: true
+      }
+  ]
+
+})
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,98 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="no-js">
+<head>
+    <meta charset="UTF-8">
+    <title>控制台</title>
+</head>
+{#<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">#}
+<link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.css" rel="stylesheet">
+{#<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>#}
+{#<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">#}
+{#<link rel="stylesheet" href='{% static "bootstrap/css/tether.min.css" %}'>#}
+{#<link rel="stylesheet" href='{% static "bootstrap/css/bootstrap.min.css" %}'>#}
+<link rel="stylesheet" href='{% static "font_awesome/css/font-awesome.min.css" %}'>
+{% block css %}{% endblock %}
+<script>
+    window.drf = {
+      csrfHeaderName: "X-CSRFTOKEN",
+      csrfCookieName: "csrftoken"
+    };
+</script>
+{#<script src="{% static 'jQuery/jquery-3.1.1.min.js' %}"></script>#}
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src='{% static "rest_framework/js/csrf.js" %}'></script>
+<script src='{% static "simple-ajax-table/sat.core.js" %}'></script>
+<script src='{% static "simple-ajax-table/sat.create.js" %}'></script>
+<script src='{% static "simple-ajax-table/sat.update.js" %}'></script>
+<script src='{% static "simple-ajax-table/sat.drf.js" %}'></script>
+{#<script src='{% static "bootstrap/js/tether.min.js" %}'></script>#}
+{#<script src='{% static "bootstrap/js/bootstrap.min.js" %}'></script>#}
+<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src='{% static "markdown/markdown.min.js" %}'></script>
+
+{#<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>#}
+
+<body>
+<div class="container-fluid clearfix">
+    <div class="row">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="row">
+                    <a class="navbar-brand">
+                        <img src="{% static 'image/logo.png' %}" height="30px">
+                    </a>
+                    <a class="navbar-brand" href="#">控制台</a>
+
+
+                </div>
+            </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container-fluid clearfix">
+        <div class="row">
+            <div class="col-xs-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/main">主页</a></li>
+                <li><a href="/bank">题库管理</a></li>
+                {% block sub_nav %}{% endblock %}
+                <li><a href="/question">问题管理</a></li>
+                <li><a href="#">即时添加</a></li>
+                <li><a href="/test">问答</a></li>
+            </ul>
+        </div>
+
+        <div class="col-lg-8 	col-md-7">
+                {% block content %}{% endblock %}
+{#            </div>#}
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    function getFormData(form) {
+      var array = $(form).serializeArray()
+      var data = {}
+      for (var i in array) {
+        var it = array[i]
+        if (data[it.name]) {
+          if (!(data[it.name] instanceof Array)) {
+            var oldValue = data[it.name]
+            data[it.name] = []
+            data[it.name].push(oldValue)
+          }
+          data[it.name].push(it.value)
+        } else {
+          data[it.name] = it.value
+        }
+      }
+
+      return data
+    }
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

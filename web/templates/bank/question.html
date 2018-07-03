@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div id="question-list"></div>
+{% endblock %}
+{% block sub_nav %}
+    <ul class="nav nav-pills nav-stacked">
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-instance' bid %}">&nbsp&nbsp&nbsp&nbsp基本信息</a></li>
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-question-list' bid %}">&nbsp&nbsp&nbsp&nbsp题目列表</a></li>
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-question-add' bid %}">&nbsp&nbsp&nbsp&nbsp添加题目</a></li>
+    </ul>
+{% endblock %}
+{% block script %}
+<script>
+SATable.DRFTable({
+      id: 'question-list',
+      title: '题目列表',
+      url: "{% url 'api-question-search-list' %}" + '?bank={{ bid }}' ,
+      search: true,
+      columns: [
+
+        { name: 'question', caption: '问题', sort: true, ordering: 1, type: 'Link', typeInfo: { base_url: '{% url 'web-question-list' %}', key: 'id' } },
+        { name: 'bank_name', caption: '所属题库', sort: true, type: 'Text' },
+        { name: "url", caption: "链接", type: 'Text' },
+
+      ],
+          createURL: "{% url 'web-question-create' %}"
+})
+</script>
+{% endblock %}

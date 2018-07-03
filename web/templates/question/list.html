@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div id="question"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+    SATable.DRFTable({
+      id: 'question',
+      title: '问题库',
+      url: "{% url 'api-questionanswer-list' %}",
+      search: true,
+      columns: [
+
+        { name: 'question', caption: '问题', sort: true, ordering: 1, type: 'Link', typeInfo: { base_url: '{% url 'web-question-list' %}', key: 'id' } },
+        { name: 'bank_name', caption: '所属题库', sort: true, type: 'Text' },
+        { name: "url", caption: "链接", type: 'Text' },
+
+      ],
+          createURL: "{% url 'web-question-create' %}"
+    })
+
+</script>
+{% endblock %}

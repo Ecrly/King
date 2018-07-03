@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div id="bank"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+    SATable.DRFTable({
+      id: 'bank',
+      title: '题库',
+      url: "{% url 'api-bank-list' %}",
+      search: true,
+      columns: [
+        { name: 'name', caption: 'ID', sort: true, ordering: 1, type: 'Link', typeInfo: { base_url: '{% url 'web-bank-list' %}', key: 'id' } },
+        { name: 'name', caption: '题K', sort: true, type: 'Text' },
+{#        { name: 'answer', caption: '答案', sort: true, type: 'Text' },#}
+        { name: "url", caption: "url", type: 'Text' },
+        { name: "is_available", caption: "是否可用", type: 'Boolean' },
+
+      ],
+      createURL: "{% url 'web-bank-create' %}"
+    })
+
+</script>
+{% endblock %}

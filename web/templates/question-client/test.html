@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block content %}
+    <div>
+        <form role="form" id="client-question">
+          <div class="form-group">
+            <label for="name">您的提问</label>
+            <input type="text" class="form-control" id="question" name="question">
+          </div>
+            <input type="button" class="form-control btn btn-primary" id = "client-submit" value="提交">
+        </form>
+    </div>
+    <div class="answer"></div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function () {
+    $("#client-submit").click(function () {
+        question = $("#question").val()
+        alert(question)
+        data = {'question': question}
+        $.ajax({
+            type: "POST",
+            url: "{% url 'web-test-answer' %}",
+            data: data,
+            dataType: 'json',
+            success: function (ret) {
+                alert("成功")
+                cache = ret['cache']
+                for(var i = 0; i < cache.length; i++){
+                    question = cache[i]['question']
+                    sim = cache[i]['sim']
+                    answer = cache[i]['answer']
+                    div = $("<div></div>")
+                    div1 = $("<div></div>").text(question)
+                    div2 = $("<div></div>").text(sim)
+                    div3 = $("<div></div>").text(answer)
+                    div.append(div1).append(div2).append(div3)
+                    $(".answer").append(div)
+                }
+            },
+            error: function (info, message, errorObj) {
+                alert("error")
+                self.setError(self, info, message, errorObj)
+            }
+    })
+})
+})
+</script>
+{% endblock %}

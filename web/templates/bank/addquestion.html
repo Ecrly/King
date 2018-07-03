@@ -1,0 +1,89 @@
+{% extends "index.html" %}
+{#{% load staticfiles %}#}
+{% block css %}
+    <style type="text/css">
+        .add-question{
+            display: none;
+
+        }
+        li{
+            float: left;
+        }
+    </style>
+{% endblock %}
+{% block sub_nav %}
+    <ul class="nav nav-pills nav-stacked">
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-instance' bid %}">&nbsp&nbsp&nbsp&nbsp基本信息</a></li>
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-question-list' bid %}">&nbsp&nbsp&nbsp&nbsp题目列表</a></li>
+         <li class="nav-item"><a class="nav-link " href="{% url 'web-bank-question-add' bid %}">&nbsp&nbsp&nbsp&nbsp添加题目</a></li>
+    </ul>
+{% endblock %}
+{% block content %}
+    <div class="row">
+{#        <button type="button" class="btn btn-primary" id="btn-add-question">添加题目</button>#}
+        <!-- Single button -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            添加题目 <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">手动添加</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">批量添加</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">即时添加</a></li>
+          </ul>
+        </div>
+        <div class="manual-add">
+            <form id="manual-add-form">
+              <div class="form-group">
+                <label for="name">问题</label>
+                <input type="text" class="form-control" name="question">
+              </div>
+              <div class="form-group">
+                <label for="name">答案</label>
+                <textarea class="form-control" rows="5" name="answer"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="name">详情链接</label>
+                <input type="text" class="form-control" name="url">
+              </div>
+              <input type="button" class="form-control btn btn-primary" id = "manual-submit" value="提交">
+            </form>
+        </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+$(function () {
+    $('#manual-submit').click(function () {
+        var form = $("#manual-add-form")
+        var init_data = getFormData(form)
+        var data = {}
+        data.question = init_data.question
+        data.answer = init_data.answer
+        data.bank = {{ bid }}
+        data.url = init_data.url
+        data.bank_name = 'eee'
+         $.ajax({
+            type: "POST",
+            url: "{% url 'api-questionanswer-list' %}",
+            data: data,
+            dataType: 'json',
+            success: function (ret) {
+                alert("成功")
+{#                location.href = "{% url 'web-mission-group-mission-list' id %}"#}
+            },
+            error: function (info, message, errorObj) {
+                alert("error")
+                self.setError(self, info, message, errorObj)
+            }
+        })
+})
+})
+
+</script>
+{% endblock %}
+
